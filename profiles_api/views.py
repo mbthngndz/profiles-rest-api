@@ -118,7 +118,7 @@ class UserLoginApiView(ObtainAuthToken):
 class UserProfileFeedViewSet(viewsets.ModelViewSet):
     """Handles creating, reading, updating profile feed items"""
     serializer_class = serializers.ProfileFeedItemSerializer
-    authentication_classes = (TokenAuthentication, )
+    authentication_classes = TokenAuthentication
     queryset = models.ProfileFeedItem.objects.all()
     permission_classes = (permissions.UpdateOwnStatus,IsAuthenticated)
 
