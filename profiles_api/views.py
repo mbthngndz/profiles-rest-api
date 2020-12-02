@@ -1,3 +1,4 @@
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,6 +12,8 @@ from rest_framework.permissions import IsAuthenticated
 from profiles_api import serializers
 from profiles_api import models
 from profiles_api import permissions
+from profiles_api.models import ProfileFeedItem
+from profiles_api.serializers import FeedListSerializer, FeedCreateSerializer
 
 
 class HelloApiView(APIView):
@@ -118,10 +121,20 @@ class UserLoginApiView(ObtainAuthToken):
 class UserProfileFeedViewSet(viewsets.ModelViewSet):
     """Handles creating, reading, updating profile feed items"""
     serializer_class = serializers.ProfileFeedItemSerializer
-    authentication_classes = TokenAuthentication
+    authentication_classes = (TokenAuthentication,)
     queryset = models.ProfileFeedItem.objects.all()
-    permission_classes = (permissions.UpdateOwnStatus,IsAuthenticated)
+    permission_classes = (permissions.UpdateOwnStatus, IsAuthenticated)
 
     def perform_create(self, serializer):
         serializer.save(user_profile=self.request.user)
 
+
+# API VIEW
+class FeedListAllAPIView(ListAPIView):
+    serializer_class = FeedListSerializer
+    queryset = ProfileFeedItem.objects.all()
+
+
+class FeedCreateAPIView(CreateAPIView):
+    serializer_class = FeedCreateSerializer
+    queryset = ProfileFeedItem.objects.all()

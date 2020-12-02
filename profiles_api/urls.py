@@ -6,13 +6,13 @@ from profiles_api import views
 
 router = DefaultRouter()
 router.register("hello-viewset", views.HelloViewSet, basename="hello-viewset")
-router.register('profile', views.UserProfileViewSet) # View bölümünde queryset tanımlandıysa ayrıca basename oluşturmaya gerek yok.
+router.register('profile', views.UserProfileViewSet)  # View bölümünde queryset tanımlandıysa ayrıca basename oluşturmaya gerek yok.
 router.register('feed', views.UserProfileFeedViewSet, )
-
-
 
 urlpatterns = [
     path("hello-view/", views.HelloApiView.as_view()),
     path('login/', views.UserLoginApiView.as_view()),
+    path('feeds/', views.FeedListAllAPIView.as_view()),
+    path('feeds/create/', views.FeedCreateAPIView.as_view()),
     path("", include(router.urls)),
 ]

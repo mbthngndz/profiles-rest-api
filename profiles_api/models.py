@@ -12,8 +12,7 @@ class UserProfileManager(BaseUserManager):
         """Create a new user profile"""
         if not email:
             raise ValueError('User must have email address')
-
-        email = self.normalize_email(email)
+                                                                                                                                                                                                              #email = self.normalize_email(email)
         user = self.model(email=email, name=name)
 
         user.set_password(password)
@@ -35,7 +34,7 @@ class UserProfileManager(BaseUserManager):
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system"""
     email = models.EmailField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
 
@@ -44,14 +43,14 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
-    def get_full_name(self):
-        """Retrieve full name of user"""
-        return self.name
-
-    def get_short_name(self):
-        """Retrieve short name of user"""
-        return self.name
-
+#    def get_full_name(self):
+#        """Retrieve full name of user"""
+#        return self.name
+#
+#    def get_short_name(self):
+#        """Retrieve short name of user"""
+#        return self.name
+#
     def __str__(self):
         """Return string representation of our user"""
         return self.email
@@ -69,5 +68,4 @@ class ProfileFeedItem(models.Model):
     def __str__(self):
         """Return the model as a string"""
         return self.status_text
-
 
